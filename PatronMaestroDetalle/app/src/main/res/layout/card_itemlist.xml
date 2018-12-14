@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/foto"
+                android:id="@+id/tvfoto"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:src="@mipmap/ic_launcher_round"
