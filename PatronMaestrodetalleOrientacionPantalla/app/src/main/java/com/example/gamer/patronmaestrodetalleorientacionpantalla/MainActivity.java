@@ -20,10 +20,11 @@ public class MainActivity extends AppCompatActivity implements ComunicacionFragm
         setContentView(R.layout.activity_main);
 
         if(findViewById(R.id.contenedor)!=null){//si existe
+            Utilidades.portrait=true;
            if(savedInstanceState !=null){
                return;
            }
-           Utilidades.portrait=true;
+
             listaPersonajeFragment=new ListaPersonajeFragment();
 
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,listaPersonajeFragment).commit();
