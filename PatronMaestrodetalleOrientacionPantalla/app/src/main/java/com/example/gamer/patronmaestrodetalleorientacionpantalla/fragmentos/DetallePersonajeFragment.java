@@ -66,8 +66,8 @@ public class DetallePersonajeFragment extends Fragment {
         Personajes personajes=null;
         if(objetorecivido!=null){
             personajes =(Personajes) objetorecivido.getSerializable("objeto");
-            imagendetalle.setImageResource(personajes.getImagendetalle());
-            textodetalle.setText(personajes.getDescridetalle());
+            asignarinformacion(personajes);
+
 
         }
         return v;
@@ -99,5 +99,9 @@ public class DetallePersonajeFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+    public void asignarinformacion(Personajes personajes){
+        imagendetalle.setImageResource(personajes.getImagendetalle());
+        textodetalle.setText(personajes.getDescridetalle());
     }
 }

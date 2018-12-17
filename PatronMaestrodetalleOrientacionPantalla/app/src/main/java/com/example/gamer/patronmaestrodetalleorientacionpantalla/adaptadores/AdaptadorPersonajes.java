@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.gamer.patronmaestrodetalleorientacionpantalla.R;
 import com.example.gamer.patronmaestrodetalleorientacionpantalla.entidades.Personajes;
+import com.example.gamer.patronmaestrodetalleorientacionpantalla.utilidades.Utilidades;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,9 @@ public class AdaptadorPersonajes extends RecyclerView.Adapter<AdaptadorPersonaje
     public ViewHolderPersonaje onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate( R.layout.card_itemlist,null,false);
+       RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);//con esto asigno ancho y alto del reciclerview de madura obligatoria
+        v.setLayoutParams(layoutParams);
+
         v.setOnClickListener(this);
         return new ViewHolderPersonaje(v);
     }
@@ -40,7 +44,10 @@ public class AdaptadorPersonajes extends RecyclerView.Adapter<AdaptadorPersonaje
     @Override
     public void onBindViewHolder(@NonNull ViewHolderPersonaje holder, int position) {
         holder.tvnombre.setText(lista.get(position).getNombre());
-        holder.tvDescripcion.setText(lista.get(position).getInfo());
+        if(Utilidades.portrait){
+            holder.tvDescripcion.setText(lista.get(position).getInfo());
+
+        }
         holder.tvfoto.setImageResource(lista.get(position).getFoto());
     }
 
@@ -61,13 +68,15 @@ public class AdaptadorPersonajes extends RecyclerView.Adapter<AdaptadorPersonaje
         TextView tvnombre;
         @BindView(R.id.tvfoto)
         ImageView tvfoto;
-        @BindView(R.id.tvDescripcion)
+       // @BindView(R.id.tvDescripcion)
         TextView tvDescripcion;
 
         public ViewHolderPersonaje(View itemView) {
             super(itemView);
             ButterKnife.bind(this ,itemView);
-
+            if(Utilidades.portrait){
+                tvDescripcion= itemView.findViewById(R.id.tvDescripcion);
+            }
             //itemView.setOnClickListener();
 
         }

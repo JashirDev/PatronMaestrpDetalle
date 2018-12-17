@@ -9,6 +9,7 @@ import com.example.gamer.patronmaestrodetalleorientacionpantalla.entidades.Perso
 import com.example.gamer.patronmaestrodetalleorientacionpantalla.fragmentos.DetallePersonajeFragment;
 import com.example.gamer.patronmaestrodetalleorientacionpantalla.fragmentos.ListaPersonajeFragment;
 import com.example.gamer.patronmaestrodetalleorientacionpantalla.interfaces.ComunicacionFragments;
+import com.example.gamer.patronmaestrodetalleorientacionpantalla.utilidades.Utilidades;
 
 public class MainActivity extends AppCompatActivity implements ComunicacionFragments,ListaPersonajeFragment.OnFragmentInteractionListener,DetallePersonajeFragment.OnFragmentInteractionListener{
     ListaPersonajeFragment listaPersonajeFragment;
@@ -18,9 +19,19 @@ public class MainActivity extends AppCompatActivity implements ComunicacionFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listaPersonajeFragment=new ListaPersonajeFragment();
+        if(findViewById(R.id.contenedor)!=null){//si existe
+           if(savedInstanceState !=null){
+               return;
+           }
+           Utilidades.portrait=true;
+            listaPersonajeFragment=new ListaPersonajeFragment();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,listaPersonajeFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,listaPersonajeFragment).commit();
+        }else{
+            Utilidades.portrait=false;
+        }
+
+
     }
 
     @Override
@@ -30,13 +41,23 @@ public class MainActivity extends AppCompatActivity implements ComunicacionFragm
 
     @Override
     public void enviarpersonajes(Personajes personajes) {
-        detallePersonajeFragment= new DetallePersonajeFragment();
-        Bundle bundleenvio = new Bundle();
-        bundleenvio.putSerializable("objeto",personajes);//mando lso personajes como objetos
-        detallePersonajeFragment.setArguments(bundleenvio);
+        detallePersonajeFragment=(DetallePersonajeFragment) this.getSupportFragmentManager().findFragmentById(R.id.land_detallefragment);//con esto va ser igual al espacio al que le esta asignando
 
-        //cargar el fragment en el activity
-        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,detallePersonajeFragment).addToBackStack(null).commit();//backstack para un cambio mas eficiente
-    }
+        if(detallePersonajeFragment!=null && findViewById(R.id.contenedor)==null){//se preunta si se genero la instancia (lanscape) y si la instancia del portrai no esta
+            detallePersonajeFragment.asignarinformacion(personajes);
+        }else{//de lo contratrio se hace el portrait
+            detallePersonajeFragment= new DetallePersonajeFragment();
+            Bundle bundleenvio = new Bundle();
+            bundleenvio.putSerializable("objeto",personajes);//mando lso personajes como objetos
+            detallePersonajeFragment.setArguments(bundleenvio);
+
+            //cargar el fragment en el activity
+            getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,detallePersonajeFragment).addToBackStack(null).commit();//backstack para un cambio mas eficiente
+
+        }
+
+
+
+        }
 }
 
